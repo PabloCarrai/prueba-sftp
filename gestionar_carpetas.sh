@@ -37,6 +37,7 @@ else
                 echo "vamos a crearlo"
                 cp .env-Ejemplo $ARCHIVOENV
                 sustituir_clave                
+		chown --reference=. "$ARCHIVOENV"
             fi
         fi
     fi
