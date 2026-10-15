@@ -2,6 +2,7 @@
 
 CARPETA="./mi_carpeta_sftp"
 CARPETAB="./mi_carpeta_sftp/archivos"
+ARCHIVOENV=".env"
 
 if [[ $EUID -ne 0 ]]; then
     echo "Necesitamos permisos de sudo" >&2
@@ -23,7 +24,16 @@ else
             echo "La carpeta $CARPETAB no existe"
             echo "vamos a crearla"
             mkdir -p $CARPETAB
-            chown -R 1001:1003 $CARPETAB             
+            chown -R 1001:1003 $CARPETAB
+
+
+        if [ -d $ARCHIVOENV ]; then
+            echo "El archivo $ARCHIVOENV existe"
+        else
+            echo "El archivo $ARCHIVOENV no existe"
+            echo "vamos a crearlo"
+            cp .env-Ejemplo $ARCHIVOENV
+            cat $ARCHIVOENV
         fi
     fi
 fi
