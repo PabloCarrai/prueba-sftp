@@ -1,0 +1,11 @@
+services:
+  sftp:
+    image: atmoz/sftp
+    container_name: sftp_server
+    ports:
+      - "2222:22"
+    volumes:
+      - ./mi_carpeta_sftp:/home/${SFTP_USER}
+    command: ${SFTP_USER}:${SFTP_PASS}:${SFTP_UID}:${SFTP_GID}
+    restart: always    
+
