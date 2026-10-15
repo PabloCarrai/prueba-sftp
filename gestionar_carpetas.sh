@@ -9,10 +9,31 @@ sustituir_clave(){
     sed -i "s|^SFTP_PASS *=.*|SFTP_PASS=$CLAVE|" "$ARCHIVOENV"
 }
 
-if [[ $EUID -ne 0 ]]; then
+generar_env(){
+    cp .env-Ejemplo $ARCHIVOENV
+    sustituir_clave                
+    chown --reference=. "$ARCHIVOENV"
+}
+
+primer_carpeta(){
+    mkdir $CARPETA
+    chown root:root $CARPETA 
+    chmod 755 $CARPETA
+}
+
+segunda_carpeta(){
+    mkdir -p $CARPETAB
+    chown -R 1001:1003 $CARPETAB
+}
+
+sin_permisos(){
     echo "Necesitamos permisos de sudo" >&2
     echo "Esto seria a grandes rasgo"
     echo "sudo /gestionar_carpetas.sh"
+}
+
+if [[ $EUID -ne 0 ]]; then
+    sin_permisos
     exit 1
 else
     if [ -d $CARPETA ]; then
@@ -20,24 +41,19 @@ else
     else
         echo "La carpeta $CARPETA no existe"
         echo "vamos a crearla"
-        mkdir $CARPETA
-        chown root:root $CARPETA 
-        chmod 755 $CARPETA
+        primer_carpeta
         if [ -d $CARPETAB ]; then
             echo "La carpeta $CARPETAB existe"
         else
             echo "La carpeta $CARPETAB no existe"
             echo "vamos a crearla"
-            mkdir -p $CARPETAB
-            chown -R 1001:1003 $CARPETAB
+            segunda_carpeta
             if [ -d $ARCHIVOENV ]; then
                 echo "El archivo $ARCHIVOENV existe"
             else
                 echo "El archivo $ARCHIVOENV no existe"
                 echo "vamos a crearlo"
-                cp .env-Ejemplo $ARCHIVOENV
-                sustituir_clave                
-		chown --reference=. "$ARCHIVOENV"
+                generar_env
             fi
         fi
     fi
