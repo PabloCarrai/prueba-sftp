@@ -21,7 +21,7 @@ else
         echo "La carpeta $CARPETA no existe"
         echo "vamos a crearla"
         mkdir $CARPETA
-        chown -R root:root $CARPETA 
+        chown root:root $CARPETA 
         chmod 755 $CARPETA
         if [ -d $CARPETAB ]; then
             echo "La carpeta $CARPETAB existe"
