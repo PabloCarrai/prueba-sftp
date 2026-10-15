@@ -25,15 +25,14 @@ else
             echo "vamos a crearla"
             mkdir -p $CARPETAB
             chown -R 1001:1003 $CARPETAB
-
-
-        if [ -d $ARCHIVOENV ]; then
-            echo "El archivo $ARCHIVOENV existe"
-        else
-            echo "El archivo $ARCHIVOENV no existe"
-            echo "vamos a crearlo"
-            cp .env-Ejemplo $ARCHIVOENV
-            cat $ARCHIVOENV
+            if [ -d $ARCHIVOENV ]; then
+                echo "El archivo $ARCHIVOENV existe"
+            else
+                echo "El archivo $ARCHIVOENV no existe"
+                echo "vamos a crearlo"
+                cp .env-Ejemplo $ARCHIVOENV
+                cat $ARCHIVOENV
+            fi
         fi
     fi
 fi
