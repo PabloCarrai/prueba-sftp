@@ -6,7 +6,7 @@ ARCHIVOENV=".env"
 CLAVE=$(openssl rand -base64 44 | tr -d '/+=' | cut -c1-44)
 
 sustituir_clave(){
-    sed -i "s/^SFTP_PASS=.*/SFTP_PASS=\"$CLAVE\"/" "$ARCHIVOENV"
+    sed -i "s|^SFTP_PASS *=.*|SFTP_PASS=$CLAVE|" "$ARCHIVOENV"
 }
 
 if [[ $EUID -ne 0 ]]; then
