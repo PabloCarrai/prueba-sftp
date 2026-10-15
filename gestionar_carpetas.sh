@@ -3,6 +3,11 @@
 CARPETA="./mi_carpeta_sftp"
 CARPETAB="./mi_carpeta_sftp/archivos"
 ARCHIVOENV=".env"
+CLAVE=$(openssl rand -base64 44 | tr -d '/+=' | cut -c1-44)
+
+sustituir_clave(){
+    sed -i 's/^SFTP_PASS=mi_contrasena_super_secreta/SFTP_PASS="CLAVE"/' $ARCHIVOENV
+}
 
 if [[ $EUID -ne 0 ]]; then
     echo "Necesitamos permisos de sudo" >&2
@@ -31,7 +36,7 @@ else
                 echo "El archivo $ARCHIVOENV no existe"
                 echo "vamos a crearlo"
                 cp .env-Ejemplo $ARCHIVOENV
-                cat $ARCHIVOENV
+                sustituir_clave                
             fi
         fi
     fi
