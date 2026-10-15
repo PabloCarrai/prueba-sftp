@@ -4,13 +4,19 @@ CARPETA="./mi_carpeta_sftp"
 CARPETAB="./mi_carpeta_sftp/archivos"
 ARCHIVOENV=".env"
 CLAVE=$(openssl rand -base64 44 | tr -d '/+=' | cut -c1-44)
+USUARIO="ftp_$(openssl rand -hex 4)"
 
 sustituir_clave(){
     sed -i "s|^SFTP_PASS *=.*|SFTP_PASS=$CLAVE|" "$ARCHIVOENV"
 }
 
+sustituir_usuario(){
+    sed -i "s|^SFTP_USER=.*|SFTP_USER=$USUARIO|" "$ARCHIVOENV"
+}
+
 generar_env(){
     cp .env-Ejemplo $ARCHIVOENV
+    sustituir_usuario
     sustituir_clave                
     chown --reference=. "$ARCHIVOENV"
 }
